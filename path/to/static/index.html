@@ -7,37 +7,66 @@
 </head>
 <body>
     <h1>Лабораторная работа №1</h1>
-    <h2>Хабиров Тимур Рустемович, 467898</h2>
+    <h2>Хабиров Тимур Рустемович, P3232, 467898</h2>
 
     <form>
         <div>
             Выбери X:
-            <select>
-                <option value="-5">-5</option>
-                <option value="-4">-4</option>
-                <option value="-3">-3</option>
-                <option value="-2">-2</option>
-                <option value="-1">-1</option>
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
+            <label>
+                <select>
+                    <option value="-5">-5</option>
+                    <option value="-4">-4</option>
+                    <option value="-3">-3</option>
+                    <option value="-2">-2</option>
+                    <option value="-1">-1</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </label>
         </div>
         <br>
         <div>
             Введи Y:
-            <input type="number">
+            <label>
+                <input type="number" min="-3" max="5"
+                placeholder="[-3;5]" required>
+            </label>
         </div>
         <br>
         <div>
             Выбери R:
-            <input type="radio"> 1
-            <input type="radio"> 2
-            <input type="radio"> 3
-            <input type="radio"> 4
-            <input type="radio"> 5
+            <label>
+                <input type="radio" name="r-radio" required>
+            </label> 1
+            <label>
+                <input type="radio" name="r-radio" required>
+            </label> 2
+            <label>
+                <input type="radio" name="r-radio" required>
+            </label> 3
+            <label>
+                <input type="radio" name="r-radio" required>
+            </label> 4
+            <label>
+                <input type="radio" name="r-radio" required>
+            </label> 5
         </div>
+        <button type="submit">Отправить</button>
+        <button type="reset">Очистить таблицу</button>
     </form>
+    <table class="check">
+        <tr class="table-header">
+            <th scope="col">X</th>
+            <th scope="col">Y</th>
+            <th scope="col">R</th>
+            <th scope="col">Попадание</th>
+            <th scope="col">Время отправки</th>
+            <th scope="col">Время работы</th>
+        </tr>
+    </table>
+
+    <script src="script.js"></script>
 </body>
 </html>

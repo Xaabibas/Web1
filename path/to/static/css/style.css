@@ -2,14 +2,41 @@ body {
 
 }
 
+h2 {
+    font-family: monospace;
+    color: black;
+    font-size: 20pt;
+}
 select {
-    color: green
+    color: green;
 }
 
 .X-select {
-    width: 300pt
-    padding: 20pt
-    margin: 20px auto
+    width: 300pt;
+    padding: 20pt;
+    margin: 20px auto;
+}
+
+table.check {
+    border: 1px solid #eee;
+    table-layout: fixed;
+    width: 70%;
+    margin-bottom: 20px;
+
+    opacity: 0.8;
+}
+
+.check th {
+    font-weight: bold;
+    padding: 5px;
+    background: #efefef;
+    border: 1px solid #dddddd;
+}
+
+.check td {
+    padding: 5px 10px;
+    border: 1px solid #eee;
+    text-align: center;
 }
 
 input[type="number"] {
@@ -29,5 +56,5 @@ input[type="number"] {
 
 input[type="number"]:focus {
   color: #000000;
-  border: 1px solid #000000
+  border: 1px solid #000000;
 }
