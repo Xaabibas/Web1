@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Лаба 1</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h1>Лабораторная работа №1</h1>
@@ -13,7 +14,7 @@
         <div>
             Выбери X:
             <label>
-                <select>
+                <select name="x-param">
                     <option value="-5">-5</option>
                     <option value="-4">-4</option>
                     <option value="-3">-3</option>
@@ -30,33 +31,23 @@
         <div>
             Введи Y:
             <label>
-                <input type="number" min="-3" max="5"
+                <input id="y-param" name="y-param" type="number" min="-3" max="5"
                 placeholder="[-3;5]" required>
             </label>
         </div>
         <br>
         <div>
             Выбери R:
-            <label>
-                <input type="radio" name="r-radio" required>
-            </label> 1
-            <label>
-                <input type="radio" name="r-radio" required>
-            </label> 2
-            <label>
-                <input type="radio" name="r-radio" required>
-            </label> 3
-            <label>
-                <input type="radio" name="r-radio" required>
-            </label> 4
-            <label>
-                <input type="radio" name="r-radio" required>
-            </label> 5
+            <input type="radio" name="r-param" value="1" checked="checked" required>1
+            <input type="radio" name="r-param" value="2" required>2
+            <input type="radio" name="r-param" value="3" required>3
+            <input type="radio" name="r-param" value="4" required>4
+            <input type="radio" name="r-param" value="5" required>5
         </div>
-        <button type="submit">Отправить</button>
-        <button type="reset">Очистить таблицу</button>
+        <button id="checkButton" type="button">Отправить</button>
+        <button id="clean">Очистить таблицу</button>
     </form>
-    <table class="check">
+    <table id="checkTable" class="check">
         <tr class="table-header">
             <th scope="col">X</th>
             <th scope="col">Y</th>
