@@ -7,9 +7,28 @@ h2 {
     color: black;
     font-size: 20pt;
 }
+
 select {
 
 }
+
+.main {
+    width: 70%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.graph {
+    width: 29%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
 
 .X-select {
     width: 300pt;
@@ -20,8 +39,8 @@ select {
 table.check {
     border: 1px solid #eee;
     table-layout: fixed;
-    width: 70%;
-    margin-bottom: 20px;
+    width: 90%;
+    margin: 1%;
 
     opacity: 0.8;
 }
@@ -37,6 +56,16 @@ table.check {
     padding: 5px 10px;
     border: 1px solid #eee;
     text-align: center;
+}
+
+.axis {
+    stroke: #000720;
+}
+
+.figure {
+    stroke: navy;
+    fill: blue;
+    fill-opacity: 0.4;
 }
 
 input[type="number"] {

@@ -1,15 +1,31 @@
 package org.example;
 
+import java.util.HashMap;
+
 public class Validator {
-    public boolean validate(int x, float y, int r) {
+    public Response validate(HashMap<String, String> params) {
+        Response response = new Response();
+        try {
+            int x = Integer.parseInt(params.get("x"));
+            float y = Float.parseFloat(params.get("y"));
+            int r = Integer.parseInt(params.get("r"));
+
+            response.setHit(checkBox(x, y, r));
+        } catch (IllegalArgumentException e) {
+            response.setHit(false);
+        }
+        return response;
+    }
+
+    private boolean checkBox(int x, float y, int r) {
         if (x >= 0 && y >= 0) {
             return x*x + y*y <= r*r;
         }
         if (x < 0 && y >= 0) {
-            return x > -r && y < -x;
+            return x >= -r && y <= r - x;
         }
         if (x >= 0) {
-            return x <= r && y <= (float) r / 2;
+            return x <= r && y >= (float) -r / 2;
         }
         return false;
     }

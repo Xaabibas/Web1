@@ -1,77 +1,89 @@
-document.getElementById("checkButton").onclick = function (e) {
-    e.preventDefault()
-    const table = document.getElementById("checkTable");
+const table = document.getElementById("checkTable");
+const pointer = document.getElementById("pointer");
+
+document.getElementById("checkButton").onclick = async function (e) {
+    e.preventDefault();
     let x = $("select[name='x-param']").val();
     let y = $("input[name='y-param']").val();
     let r = $("input[type='radio'][name='r-param']:checked").val();
+    pointer.style.visibility = "hidden";
 
-    if (isNaN(x) || isNaN(y) || isNaN(r) || y < -3 || y > 5) {
+    if (!(validateX(x) && validateY(y) && validateR(r))) {
         return;
     }
 
-    let data = {
-        "x": x,
-        "y": y,
-        "r": r
+    let data = { x, y, r };
+
+    try {
+        const response = await fetch("/fcgi-bin/server.jar", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+        const json = await response.json();
+        append(json, x, y, r);
+        pointer.style.visibility = "visible";
+        pointer.setAttribute("cx", x * 60 * 2 / r + 150);
+        pointer.setAttribute("cy", -y * 60 * 2 / r + 150);
+    } catch(err) {
+        alert("Ошибка: " + err.message);
+        console.log(err.message);
     }
-
-    $.ajax({
-        url: "/fcgi-bin/server.jar?" + $.param(data),
-        type: "GET",
-        dataType: "json",
-        success: function(response) {
-            if (response.error != null) {
-                alert("Ошибка");
-                return;
-            }
-
-            let newRow = table.insertRow(1);
-            const rowX = newRow.insertCell(0);
-            const rowY = newRow.insertCell(1);
-            const rowR = newRow.insertCell(2);
-            const rowHit = newRow.insertCell(3);
-            const rowReqTime = newRow.insertCell(4);
-            const rowWorkTime = newRow.insertCell(5);
-
-            rowX.textContent = x;
-            rowY.textContent = y;
-            rowR.textContent = r;
-            rowHit.textContent = response.result;
-
-            // TODO: почему-то этого нет. Считать время, может стоит считать тут
-            rowReqTime = response.now;
-            rowWorkTime = response.time;
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error("Ошибка:", textStatus, errorThrown);
-        }
-
-    })
 };
 
 document.getElementById("clean").onclick = function (e) {
-    e.preventDefault()
-    // TODO: очистка таблицы
+    e.preventDefault();
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
 }
 
+function append(json, x, y, r) {
+    let newRow = table.insertRow(1);
+    const rowX = newRow.insertCell(0);
+    const rowY = newRow.insertCell(1);
+    const rowR = newRow.insertCell(2);
+    const rowHit = newRow.insertCell(3);
+    const rowReqTime = newRow.insertCell(4);
+    const rowWorkTime = newRow.insertCell(5);
 
+    rowX.textContent = x;
+    rowY.textContent = y;
+    rowR.textContent = r;
+    rowHit.textContent = json.result;
+}
 
-function validateX() {
-    let x = document.getElementById("x-select").value;
+function validateX(x) {
+    if (isNaN(x)) {
+        alert("Не выбрано значение поля X");
+        return false;
+    }
     return true;
 }
 
-function validateY() {
-    let y = document.getElementById("y-input").value;
-    if (y == undefined) {
+function validateY(y) {
+    if (y == null || y == "") {
+        alert("Не введено значеине поля Y")
+        return false;
+    }
+    if (isNaN(y)) {
+        alert("Введено некорректное значение поля Y")
         return false;
     }
     if (y < -3 || y > 5) {
+        alert("Значение поля Y должно быть в промежутке [-3; 5]")
         return false;
     }
     return true;
 }
 
-function validateR() {
+function validateR(r) {
+    if (isNaN(r)) {
+        alert("Не выбрано значение поля R");
+        return false;
+    }
     return true;
 }
