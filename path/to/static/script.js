@@ -85,5 +85,9 @@ function validateR(r) {
         alert("Не выбрано значение поля R");
         return false;
     }
+    if (r < 0) {
+        alert("Радиус не может быть отрицательным");
+        return false;
+    }
     return true;
 }

@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
+<body class="main">
     <h1>Лабораторная работа №1</h1>
     <h2>Хабиров Тимур Рустемович, P3232, 467898</h2>
 
-    <div class="main">
+    <div class="formTable">
         <form>
             <div>
                 Выбери X:
@@ -49,8 +49,8 @@
             <button id="clean">Очистить таблицу</button>
         </form>
         <div class="center">
-            <table id="checkTable" class="check">
-                <tr class="table-header">
+            <table id="checkTable" >
+                <tr>
                     <th scope="col">X</th>
                     <th scope="col">Y</th>
                     <th scope="col">R</th>
@@ -60,7 +60,8 @@
                 </tr>
             </table>
         </div>
-    </div><div class="graph">
+    </div>
+    <div class="graph">
         <svg xmlns="http://www.w3.org/2000/svg"
             width="300"
             height="300">

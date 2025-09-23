@@ -1,5 +1,6 @@
-body {
-
+.main > div {
+    display: inline-block;
+    vertical-align: top;
 }
 
 h2 {
@@ -12,16 +13,12 @@ select {
 
 }
 
-.main {
-    width: 70%;
-    display: inline-block;
-    vertical-align: top;
+.formTable {
+    width: 75%;
 }
 
 .graph {
-    width: 29%;
-    display: inline-block;
-    vertical-align: top;
+    width: 24%;
 }
 
 .center {
@@ -29,33 +26,30 @@ select {
     justify-content: center;
 }
 
-
-.X-select {
-    width: 300pt;
-    padding: 20pt;
-    margin: 20px auto;
+::selection {
+    background-color: #00FFFF;
 }
 
-table.check {
+table {
     border: 1px solid #eee;
     table-layout: fixed;
     width: 90%;
     margin: 1%;
-
+    background: #C0C0C0;
+    text-align: center;
     opacity: 0.8;
 }
 
-.check th {
+th {
     font-weight: bold;
-    padding: 5px;
+    padding: 0.5%;
     background: #efefef;
     border: 1px solid #dddddd;
 }
 
 .check td {
-    padding: 5px 10px;
+    padding: 0.5%;
     border: 1px solid #eee;
-    text-align: center;
 }
 
 .axis {
@@ -66,24 +60,4 @@ table.check {
     stroke: navy;
     fill: blue;
     fill-opacity: 0.4;
-}
-
-input[type="number"] {
-   border: 1px solid #cccccc; //цвет рамки
-   border-radius: 3px; //закругление углов (общее)
-   -webkit-border-radius: 3px; //закругление углов (Google Chrome)
-   -moz-border-radius: 3px; //закругление углов (FireFox)
-   -khtml-border-radius: 3px; //закругление углов (Safari)
-   background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
-   outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
-   height: 24px; // высота на свое усмотрение
-   width: 120px; // ширина на свое усмотрение
-   color: #cccccc; //цвет шрифта в обычном состоянии
-   font-size: 11px; // Размер шрифта
-   font-family: Tahoma; // Стиль шрифта
-}
-
-input[type="number"]:focus {
-  color: #000000;
-  border: 1px solid #000000;
 }
