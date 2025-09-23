@@ -15,6 +15,10 @@ document.getElementById("checkButton").onclick = async function (e) {
     let data = { x, y, r };
 
     try {
+        let start = new Date();
+
+        console.log(start);
+        console.log(start.getDate())
         const response = await fetch("/fcgi-bin/server.jar", {
             method: "POST",
             headers: {
@@ -24,7 +28,10 @@ document.getElementById("checkButton").onclick = async function (e) {
             body: JSON.stringify(data)
         });
         const json = await response.json();
-        append(json, x, y, r);
+
+        let end = new Date();
+
+        append(json, x, y, r, start, end);
         pointer.style.visibility = "visible";
         pointer.setAttribute("cx", x * 60 * 2 / r + 150);
         pointer.setAttribute("cy", -y * 60 * 2 / r + 150);
@@ -41,7 +48,7 @@ document.getElementById("clean").onclick = function (e) {
     }
 }
 
-function append(json, x, y, r) {
+function append(json, x, y, r, start, end) {
     let newRow = table.insertRow(1);
     const rowX = newRow.insertCell(0);
     const rowY = newRow.insertCell(1);
@@ -54,6 +61,10 @@ function append(json, x, y, r) {
     rowY.textContent = y;
     rowR.textContent = r;
     rowHit.textContent = json.result;
+    rowReqTime.textContent = (start.getHours() > 10 ? start.getHours() : "0" + start.getHours()) + ":" +
+            (start.getMinutes() > 10 ? start.getMinutes() : "0" + start.getMinutes()) + ":"
+            + (start.getSeconds() > 10 ? start.getSeconds() : "0" + start.getSeconds());
+    rowWorkTime.textContent = end.getTime() - start.getTime();
 }
 
 function validateX(x) {
