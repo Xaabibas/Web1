@@ -1,12 +1,10 @@
 const table = document.getElementById("checkTable");
-const pointer = document.getElementById("pointer");
 
 document.getElementById("checkButton").onclick = async function (e) {
     e.preventDefault();
     let x = $("select[name='x-param']").val();
     let y = $("input[name='y-param']").val();
     let r = $("input[type='radio'][name='r-param']:checked").val();
-    pointer.style.visibility = "hidden";
 
     if (!(validateX(x) && validateY(y) && validateR(r))) {
         return;
@@ -17,8 +15,6 @@ document.getElementById("checkButton").onclick = async function (e) {
     try {
         let start = new Date();
 
-        console.log(start);
-        console.log(start.getDate())
         const response = await fetch("/fcgi-bin/server.jar", {
             method: "POST",
             headers: {
@@ -29,12 +25,13 @@ document.getElementById("checkButton").onclick = async function (e) {
         });
         const json = await response.json();
 
-        let end = new Date();
+        if (json.error != null) {
+            alert(json.error);
+            return;
+        }
 
+        let end = new Date();
         append(json, x, y, r, start, end);
-        pointer.style.visibility = "visible";
-        pointer.setAttribute("cx", x * 60 * 2 / r + 150);
-        pointer.setAttribute("cy", -y * 60 * 2 / r + 150);
     } catch(err) {
         alert("Ошибка: " + err.message);
         console.log(err.message);

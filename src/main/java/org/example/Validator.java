@@ -3,7 +3,7 @@ package org.example;
 import java.util.HashMap;
 
 public class Validator {
-    public Response validate(HashMap<String, String> params) {
+    public Response validate(HashMap<String, String> params) throws ValidationException{
         Response response = new Response();
         try {
             int x = Integer.parseInt(params.get("x"));
@@ -13,6 +13,9 @@ public class Validator {
             response.setHit(checkBox(x, y, r));
         } catch (IllegalArgumentException e) {
             response.setHit(false);
+            throw new ValidationException("Некоректные данные");
+        } catch (NullPointerException e) {
+            throw new ValidationException("Неверный формат данных");
         }
         return response;
     }
