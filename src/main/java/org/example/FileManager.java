@@ -9,15 +9,23 @@ public class FileManager {
         this.file = new File(fileName);
     }
 
-    public void write(String str) throws IOException {
-        FileWriter writer = new FileWriter(file, true);
-        writer.write(str + "\n");
-        writer.close();
+    public void write(String str) {
+        try {
+            FileWriter writer = new FileWriter(file, true);
+            writer.write(str + "\n");
+            writer.close();
+        } catch (SecurityException | IOException e) {
+            Main.logger.warning("Не удалось записать данные в файл");
+        }
     }
 
-    public void clear() throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter(file);
-        writer.write("X,Y,R,hit,start,time\n");
-        writer.close();
+    public void clear() {
+        try {
+            PrintWriter writer = new PrintWriter(file);
+            writer.write("X,Y,R,hit,start,time\n");
+            writer.close();
+        } catch (SecurityException | FileNotFoundException e) {
+            Main.logger.warning("Не удалось очистить файл");
+        }
     }
 }
