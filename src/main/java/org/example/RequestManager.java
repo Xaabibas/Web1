@@ -5,20 +5,26 @@ import com.fastcgi.FCGIInterface;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class RequestManager {
     private static final Set<String> availableMethods = new HashSet<>(List.of("POST", "PATCH"));
+    private static final Set<String> bodyMethods = new HashSet<>(List.of("POST"));
 
-    public Request readRequest() throws NullPointerException, ValidationException, IOException{
+    public Request readRequest() throws NullPointerException, IOException, ValidationException {
         Request request = new Request();
 
         String method = readMethod();
-        String body = readBody();
-        HashMap<String, String> params = parse(body);
-
         request.setMethod(method);
-        request.setParams(params);
+
+        if (bodyMethods.contains(method)) {
+            String body = readBody();
+            HashMap<String, String> params = parse(body);
+            request.setParams(params);
+        }
 
         return request;
     }
@@ -46,12 +52,9 @@ public class RequestManager {
         return new String(requestBodyRaw, StandardCharsets.UTF_8);
     }
 
-    private static HashMap<String, String> parse(String jsonStr) throws ValidationException {
+    private static HashMap<String, String> parse(String jsonStr) {
         HashMap<String, String> params = new HashMap<>();
         String[] pairs = jsonStr.substring(1, jsonStr.length() - 1).replaceAll("\"", "").split(",");
-        if (pairs.length != 4) {
-            throw new ValidationException("Некорректное количество аргументов");
-        }
         for (String pair : pairs) {
             String[] keyValue = pair.split(":", 2); // тут что-то не то
 
