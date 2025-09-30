@@ -1,6 +1,9 @@
-package org.example;
+package org.example.managers;
 
 import com.fastcgi.FCGIInterface;
+import org.example.Main;
+import org.example.exceptions.ValidationException;
+import org.example.modules.Request;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.modules;
 
 public class Response {
     private boolean hit;

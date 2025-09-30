@@ -1,6 +1,13 @@
 package org.example;
 
 import com.fastcgi.FCGIInterface;
+import org.example.exceptions.ValidationException;
+import org.example.managers.FileManager;
+import org.example.process.Processor;
+import org.example.managers.RequestManager;
+import org.example.managers.ResponseManager;
+import org.example.modules.Request;
+import org.example.modules.Response;
 
 import java.io.IOException;
 import java.util.HashMap;
