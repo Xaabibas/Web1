@@ -1,4 +1,8 @@
-package org.example;
+package org.example.process;
+
+import org.example.exceptions.ValidationException;
+import org.example.modules.Request;
+import org.example.modules.Response;
 
 public class Processor {
     private static final Validator validator = new Validator();

@@ -1,4 +1,6 @@
-package org.example;
+package org.example.process;
+
+import org.example.exceptions.ValidationException;
 
 import java.util.HashMap;
 

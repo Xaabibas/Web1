@@ -1,4 +1,6 @@
-package org.example;
+package org.example.managers;
+
+import org.example.modules.Response;
 
 import java.nio.charset.StandardCharsets;
 
