@@ -1,7 +1,13 @@
 const table = document.getElementById("checkTable");
+const message = document.getElementById("message");
+
+window.onload = function() {
+    load()
+}
 
 document.getElementById("checkButton").onclick = async function (e) {
     e.preventDefault();
+
     let x = $("select[name='x-param']").val();
     let y = $("input[name='y-param']").val();
     let r = $("input[type='radio'][name='r-param']:checked").val();
@@ -10,10 +16,10 @@ document.getElementById("checkButton").onclick = async function (e) {
         return;
     }
 
-    let data = { x, y, r };
-
     try {
-        let start = new Date();
+        let date = new Date();
+        let start = dateToString(date);
+        let data = { x, y, r, start };
 
         const response = await fetch("/fcgi-bin/server.jar", {
             method: "POST",
@@ -23,29 +29,38 @@ document.getElementById("checkButton").onclick = async function (e) {
             },
             body: JSON.stringify(data)
         });
-        const json = await response.json();
 
+        const json = await response.json();
         if (json.error != null) {
-            alert(json.error);
+            changeMessage(json.error);
             return;
         }
 
-        let end = new Date();
-        append(json, x, y, r, start, end);
+        append(x, y, r, json.result, start, json.time);
+        changeMessage("");
     } catch(err) {
-        alert("Ошибка: " + err.message);
+        changeMessage("Ошибка: " + err.message);
         console.log(err.message);
     }
 };
 
-document.getElementById("clean").onclick = function (e) {
+document.getElementById("clean").onclick = async function (e) {
     e.preventDefault();
+
+    const response = await fetch("/fcgi-bin/server.jar", {
+        method: "PATCH",
+        headers: {
+
+        }
+    });
+
     while (table.rows.length > 1) {
         table.deleteRow(1);
     }
+
 }
 
-function append(json, x, y, r, start, end) {
+function append(x, y, r, result, start, time) {
     let newRow = table.insertRow(1);
     const rowX = newRow.insertCell(0);
     const rowY = newRow.insertCell(1);
@@ -57,16 +72,20 @@ function append(json, x, y, r, start, end) {
     rowX.textContent = x;
     rowY.textContent = y;
     rowR.textContent = r;
-    rowHit.textContent = json.result;
-    rowReqTime.textContent = (start.getHours() > 10 ? start.getHours() : "0" + start.getHours()) + ":" +
-            (start.getMinutes() > 10 ? start.getMinutes() : "0" + start.getMinutes()) + ":"
-            + (start.getSeconds() > 10 ? start.getSeconds() : "0" + start.getSeconds());
-    rowWorkTime.textContent = end.getTime() - start.getTime();
+    rowHit.textContent = result;
+    rowReqTime.textContent = start;
+    rowWorkTime.textContent = time;
+}
+
+function dateToString(date) {
+    return (date.getHours() > 9 ? date.getHours() : "0" + date.getHours()) + ":" +
+                (date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()) + ":"
+                + (date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds());
 }
 
 function validateX(x) {
     if (isNaN(x)) {
-        alert("Не выбрано значение поля X");
+        changeMessage("Не выбрано значение поля X");
         return false;
     }
     return true;
@@ -74,15 +93,15 @@ function validateX(x) {
 
 function validateY(y) {
     if (y == null || y == "") {
-        alert("Не введено значеине поля Y")
+        changeMessage("Не введено значение поля Y");
         return false;
     }
     if (isNaN(y)) {
-        alert("Введено некорректное значение поля Y")
+        changeMessage("Введено некорректное значение поля Y");
         return false;
     }
     if (y < -3 || y > 5) {
-        alert("Значение поля Y должно быть в промежутке [-3; 5]")
+        changeMessage("Значение поля Y должно быть в промежутке [-3; 5]");
         return false;
     }
     return true;
@@ -90,12 +109,32 @@ function validateY(y) {
 
 function validateR(r) {
     if (isNaN(r)) {
-        alert("Не выбрано значение поля R");
+        changeMessage("Не выбрано значение поля R");
         return false;
     }
     if (r < 0) {
-        alert("Радиус не может быть отрицательным");
+        changeMessage("Радиус не может быть отрицательным");
         return false;
     }
     return true;
+}
+
+function changeMessage(str) {
+    message.textContent = str;
+}
+
+function load() {
+    fetch('data.csv')
+        .then(response => response.text())
+        .then(csv => {
+            const rows = csv.split("\n");
+            if (rows.length < 2) {
+                return;
+            }
+            rows.slice(1).forEach(row => {
+                const values = row.split(",");
+                append(...values);
+            })
+        })
+
 }
