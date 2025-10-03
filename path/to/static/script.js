@@ -1,5 +1,6 @@
 const table = document.getElementById("checkTable");
 const message = document.getElementById("message");
+$("#message").fadeOut();
 
 window.onload = function() {
     load()
@@ -33,11 +34,12 @@ document.getElementById("checkButton").onclick = async function (e) {
         const json = await response.json();
         if (json.error != null) {
             changeMessage(json.error);
+            showFadeIn("#message");
             return;
         }
 
         append(x, y, r, json.result, start, json.time);
-        changeMessage("");
+        $("#message").fadeOut();
     } catch(err) {
         changeMessage("Ошибка: " + err.message);
         console.log(err.message);
@@ -86,6 +88,7 @@ function dateToString(date) {
 function validateX(x) {
     if (isNaN(x)) {
         changeMessage("Не выбрано значение поля X");
+        showFadeIn("#message");
         return false;
     }
     return true;
@@ -94,26 +97,35 @@ function validateX(x) {
 function validateY(y) {
     if (y == null || y == "") {
         changeMessage("Не введено значение поля Y");
+        showFadeIn("#message");
         return false;
     }
     if (isNaN(y)) {
         changeMessage("Введено некорректное значение поля Y");
+        showFadeIn("#message");
         return false;
     }
     if (y < -3 || y > 5) {
         changeMessage("Значение поля Y должно быть в промежутке [-3; 5]");
+        showFadeIn("#message");
         return false;
     }
     return true;
 }
 
+function showFadeIn(field) {
+    $(field).fadeIn();
+}
+
 function validateR(r) {
     if (isNaN(r)) {
         changeMessage("Не выбрано значение поля R");
+        showFadeIn("#message");
         return false;
     }
     if (r < 0) {
         changeMessage("Радиус не может быть отрицательным");
+        showFadeIn("#message");
         return false;
     }
     return true;
