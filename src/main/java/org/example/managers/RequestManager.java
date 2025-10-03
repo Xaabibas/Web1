@@ -59,7 +59,7 @@ public class RequestManager {
         HashMap<String, String> params = new HashMap<>();
         String[] pairs = jsonStr.substring(1, jsonStr.length() - 1).replaceAll("\"", "").split(",");
         for (String pair : pairs) {
-            String[] keyValue = pair.split(":", 2); // тут что-то не то
+            String[] keyValue = pair.split(":", 2);
 
             if (keyValue.length > 1) {
                 params.put(keyValue[0], keyValue[1]);
